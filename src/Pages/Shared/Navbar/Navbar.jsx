@@ -2,13 +2,21 @@ import React from 'react';
 import Logo from '../../../Components/logo/Logo';
 import { Link, NavLink } from 'react-router';
 import useAuth from '../../../Hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
     const { user, logOut } = useAuth()
 
     const handleLogOut = () => {
         logOut()
-            .then(alert("log out successful"))
+            .then(() => {
+                Swal.fire({
+                    icon: "success",
+                    title: "Log Out successful",
+                    text: "You have successfully Logged Out",
+                    confirmButtonColor: '#CAEB66'
+                })
+            })
             .catch(error => console.log(error))
     }
 

@@ -1,9 +1,14 @@
 import React from 'react';
-import { Outlet } from 'react-router';
-import authImage from '../assets/authImage.png';
+import { Outlet, useLocation } from 'react-router';
 import Logo from '../Components/logo/Logo';
+import loginAnimation from '../assets/animations/login.json'
+import registrationAnimation from '../assets/animations/register.json'
+import Lottie from 'lottie-react';
+
 
 const AuthLayout = () => {
+    const location = useLocation()
+
     return (
         <div className="min-h-screen flex flex-col md:flex-row">
             <div className='flex flex-1 flex-col justify-center'>
@@ -17,10 +22,19 @@ const AuthLayout = () => {
                 </div>
             </div>
             <div className="hidden md:flex flex-1 bg-[#FAFDF0] justify-center items-center">
-                <img
-                    src={authImage}
-                    className="w-3/4 max-w-md object-contain"
-                />
+                {location.pathname === "/auth/login" ?
+                    <Lottie
+                        animationData={loginAnimation}
+                        loop={true}
+                    >
+                    </Lottie>
+                    :
+                    <Lottie
+                        animationData={registrationAnimation}
+                        loop={true}
+                    >
+                    </Lottie>
+                }
             </div>
         </div>
     );

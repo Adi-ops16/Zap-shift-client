@@ -3,8 +3,10 @@ import { useForm } from 'react-hook-form';
 import useAuth from '../../Hooks/useAuth';
 import { Link, useLocation, useNavigate } from 'react-router';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 const Login = () => {
+
     const { signInUser, signInGoogle } = useAuth()
     const axiosSecure = useAxiosSecure()
     const location = useLocation()
@@ -20,7 +22,12 @@ const Login = () => {
 
         signInUser(data.email, data.password)
             .then(() => {
-                alert("login successful")
+                Swal.fire({
+                    icon: "success",
+                    title: "Login successful",
+                    text: "Welcome back",
+                    confirmButtonColor: '#CAEB66'
+                })
                 navigate(location.state || "/")
             })
             .catch(error => console.log(error))
@@ -29,7 +36,12 @@ const Login = () => {
     const handleGoogle = () => {
         signInGoogle()
             .then((res) => {
-                alert("login successful")
+                Swal.fire({
+                    icon: "success",
+                    title: "Login successful",
+                    text: "Welcome back",
+                    confirmButtonColor: '#CAEB66'
+                })
 
                 // create user in the database
                 const userInfo = {
@@ -37,11 +49,8 @@ const Login = () => {
                     displayName: res.user.displayName,
                     photoURL: res.user.photoURL
                 }
-
                 axiosSecure.post('/users', userInfo)
-                    .then(res => {
-                        console.log("user created with google login", res)
-                    })
+                    .catch(err => console.log("couldn't post user on database", err))
 
                 navigate(location.state || "/")
             })
@@ -51,7 +60,9 @@ const Login = () => {
     return (
         <div className='flex flex-col justify-center items-center'>
             <div className='w-82'>
-                <h3 className='text-5xl font-bold text-secondary mb-1'>Welcome back</h3>
+                <h3 className='text-5xl font-bold text-secondary mb-1'>
+                    Welcome back
+                </h3>
                 <p className='mb-3 font-bold '>Login with ZapShift</p>
                 <form className='' onSubmit={handleSubmit(handleLogin)}>
                     <fieldset className="fieldset">
@@ -82,8 +93,13 @@ const Login = () => {
                         {errors.password?.type === "required" && <p className='text-red-500'>Password is required</p>}
                         {errors.password?.type === "minLength" && <p className='text-red-500'>Password must be 6 characters or longer</p>}
 
-                        <div><a className="link link-hover">Forgot password?</a></div>
-                        <button className="btn btn-primary text-black border-none mt-4">Login</button>
+                        <div>
+                            <a className="link link-hover">Forgot password?</a>
+                        </div>
+                        <button className="btn btn-primary text-black border-none mt-4"
+                        >
+                            Login
+                        </button>
                         <p className='font-bold'>Don't have an account? <Link to="/auth/register" state={location.state} className='text-primary'> Register</Link></p>
 
                         <div className="divider">Or</div>

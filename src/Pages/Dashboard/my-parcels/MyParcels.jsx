@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import useAuth from '../../Hooks/useAuth';
-import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import useAuth from '../../../Hooks/useAuth';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import { FaEdit } from 'react-icons/fa';
 import { FaMagnifyingGlass, FaMoneyBill } from 'react-icons/fa6';
 import { BsTrash } from 'react-icons/bs';
@@ -62,7 +62,7 @@ const MyParcels = () => {
                             <th>Parcel Name</th>
                             <th>Cost</th>
                             <th>Payment</th>
-                            <th>Delivery status</th>
+                            <th>Tracking Id</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -82,7 +82,16 @@ const MyParcels = () => {
                                             <span className='badge bg-green-500 font-semibold text-white'>Paid</span>
                                     }
                                 </td>
-                                <td>Pending</td>
+
+                                <td>
+                                    {
+                                        parcel.paymentStatus === 'pending' ?
+                                            "Please pay first"
+                                            :
+                                            parcel.trackingId
+                                    }
+                                </td>
+
                                 <td className='flex gap-1'>
                                     <div className="badge badge-primary text-black">
                                         <FaEdit /> Edit

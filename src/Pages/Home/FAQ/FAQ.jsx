@@ -29,8 +29,8 @@ const FAQ = () => {
                     Can I track my parcel in real time?
                 </div>
                 <div className="collapse-content text-sm">
-                    Yes! After booking, you’ll receive a tracking ID.
-                    You can use it to monitor your parcel’s live status, pickup, transit progress, and delivery time.
+                    Yes! After booking, you'll receive a tracking ID.
+                    You can use it to monitor your parcel's live status, pickup, transit progress, and delivery time.
                 </div>
             </div>
 

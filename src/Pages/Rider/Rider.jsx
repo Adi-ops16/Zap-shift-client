@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { useLoaderData } from 'react-router';
-import rider from '../../assets/agent-pending.png'
 import Swal from 'sweetalert2';
 import useAuth from '../../Hooks/useAuth';
+import riderAnimation from '../../assets/animations/rider.json'
+import Lottie from 'lottie-react';
+
 
 const Rider = () => {
-    const { user } = useAuth()
+    const [rider, setRider] = useState(null)
+    const [isSubmitted, setIsSubmitted] = useState(false)
 
-    const { register, handleSubmit, control } = useForm()
+    const { user } = useAuth()
     const axiosSecure = useAxiosSecure()
+    const { register, handleSubmit, control, reset } = useForm()
     const warehouses = useLoaderData()
     const regionsDuplicate = warehouses.map(w => w.region)
     const regions = [...new Set(regionsDuplicate)]
@@ -27,6 +31,7 @@ const Rider = () => {
         axiosSecure.post('/riders', data)
             .then(res => {
                 if (res.data.insertedId) {
+                    setIsSubmitted(true)
                     Swal.fire({
                         icon: "success",
                         title: "Your application has been submitted.",
@@ -35,11 +40,22 @@ const Rider = () => {
                         timerProgressBar: true,
                         timer: 2500
                     })
+                    reset()
                 }
             })
     }
 
+    // check if rider already exists
+    useEffect(() => {
+        axiosSecure.get('/riders')
+            .then(riders => {
+                const existingRider = riders?.data?.find(r => r.riderEmail === user?.email)
 
+                if (existingRider) {
+                    setRider(existingRider)
+                }
+            })
+    }, [axiosSecure, user])
 
     return (
         <div className='max-w-7xl mx-auto bg-white rounded-2xl py-5 px-2 md:px-20'>
@@ -120,10 +136,21 @@ const Rider = () => {
                     </div>
                     {/* right side image */}
                     <div>
-                        <img src={rider} alt="rider-photo" />
+                        <Lottie
+                            animationData={riderAnimation}
+                            loop={true}
+                        >
+                        </Lottie>
                     </div>
                 </div>
-                <button type="submit" className='btn btn-primary mt-3 text-black'>Apply</button>
+
+                <button
+                    type="submit"
+                    className="btn btn-primary mt-3 text-black"
+                    disabled={rider ? true : isSubmitted}
+                >
+                    {rider ? "You have already applied" : "Apply to become a rider"}
+                </button>
             </form>
         </div>
     );

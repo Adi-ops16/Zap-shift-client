@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 
@@ -39,6 +39,11 @@ const PaymentSuccess = () => {
             <h2 className="text-4xl font-bold ">Payment Successful</h2>
             <p>Your Transaction-ID: {paymentInfo?.transactionId}</p>
             <p>Your tracking-ID: {paymentInfo?.trackingId}</p>
+            <Link to="/dashboard/my-parcels"
+                className='btn btn-primary btn-wide text-black font-semibold'
+            >
+                Track Your parcel
+            </Link>
         </div>
     );
 };

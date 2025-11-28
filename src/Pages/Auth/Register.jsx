@@ -4,6 +4,7 @@ import useAuth from '../../Hooks/useAuth';
 import { Link, useLocation, useNavigate } from 'react-router';
 import axios from 'axios';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 const Register = () => {
     const location = useLocation()
@@ -54,7 +55,12 @@ const Register = () => {
 
                         updateUserInfo(profileUpdate)
                             .then(() => {
-                                alert("you have successfully registered")
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Registration successful",
+                                    text: "Welcome to Zap-Shift",
+                                    confirmButtonColor: '#CAEB66'
+                                })
                                 navigate(location.state || "/")
                             })
                             .catch(error => console.log("error from registration", error))
@@ -66,7 +72,12 @@ const Register = () => {
     const handleGoogle = () => {
         signInGoogle()
             .then((res) => {
-                alert("Welcome to ZapShift")
+                Swal.fire({
+                    icon: "success",
+                    title: "Registration successful",
+                    text: "Welcome to Zap-Shift",
+                    confirmButtonColor: '#CAEB66'
+                })
 
                 // create user in the database
                 const userInfo = {

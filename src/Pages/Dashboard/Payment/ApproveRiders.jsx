@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 
 
 const ApproveRiders = () => {
+
     const axiosSecure = useAxiosSecure()
     const { data: riders = [], refetch } = useQuery({
         queryKey: ['riders', 'pending'],
@@ -15,38 +16,70 @@ const ApproveRiders = () => {
         }
     })
 
-
     const handleRiderApproval = (rider, status) => {
         const updateInfo = { status: status, email: rider.riderEmail }
-        Swal.fire({
-            title: "Do you want to confirm this person as a rider?",
-            text: "You won't be able to revert this!",
-            icon: "info",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, Confirm"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axiosSecure.patch(`/riders/${rider._id}`, updateInfo)
-                    .then(res => {
-                        if (res.data.modifiedCount !== 0) {
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: "success",
-                                title: `Rider has been ${status}`,
-                                showConfirmButton: false,
-                                timer: 2500,
-                                timerProgressBar: true
-                            })
-                            refetch()
-                        }
-                    })
-                    .catch(err => {
-                        console.log("error on accepting rider", err)
-                    })
-            }
-        });
+        if (status === 'rejected') {
+            Swal.fire({
+                title: "Do you want to reject this approval?",
+                text: "You won't be able to revert this!",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#CAEB66",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, reject"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axiosSecure.patch(`/riders/${rider._id}`, updateInfo)
+                        .then(res => {
+                            if (res.data.modifiedCount !== 0) {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: "success",
+                                    title: `Rider has been ${status}`,
+                                    showConfirmButton: false,
+                                    timer: 2500,
+                                    timerProgressBar: true
+                                })
+                                refetch()
+                            }
+                        })
+                        .catch(err => {
+                            console.log("error on accepting rider", err)
+                        })
+                }
+            });
+        }
+        else {
+            Swal.fire({
+                title: "Do you want to confirm this person as a rider?",
+                text: "You won't be able to revert this!",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#CAEB66",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Confirm"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axiosSecure.patch(`/riders/${rider._id}`, updateInfo)
+                        .then(res => {
+                            if (res.data.modifiedCount !== 0) {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: "success",
+                                    title: `Rider has been ${status}`,
+                                    showConfirmButton: false,
+                                    timer: 2500,
+                                    timerProgressBar: true
+                                })
+                                refetch()
+                            }
+                        })
+                        .catch(err => {
+                            console.log("error on accepting rider", err)
+                        })
+                }
+            });
+        }
     }
 
 
@@ -58,12 +91,13 @@ const ApproveRiders = () => {
                     {/* head */}
                     <thead>
                         <tr>
-                            <th className=''>Sl</th>
-                            <th className=''>Name</th>
-                            <th className=''>Age</th>
-                            <th className=''>Driving license no.</th>
-                            <th className=''>Approval</th>
-                            <th className=''>Actions</th>
+                            <th>Sl</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Driving license no.</th>
+                            <th>Approval</th>
+                            <th>Actions</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,7 +107,7 @@ const ApproveRiders = () => {
                                 <td>{rider.riderName}</td>
                                 <td>{rider.riderAge}</td>
                                 <td>{rider.drivingLicense}</td>
-
+                                <td>{rider.riderDistrict}</td>
                                 <td
                                     className={`badge font-semibold mt-2.5 ${rider.status === 'pending' ? 'badge-warning' : rider.status === 'approved' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
                                 >
@@ -95,6 +129,7 @@ const ApproveRiders = () => {
                                         </div>
                                     }
                                 </td>
+                                <td>{rider.workStatus}</td>
                             </tr>)
                         }
                     </tbody>

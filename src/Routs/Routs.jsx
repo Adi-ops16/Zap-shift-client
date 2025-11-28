@@ -6,17 +6,20 @@ import AboutUs from "../Pages/AboutUs/AboutUs";
 import AuthLayout from "../Layouts/AuthLayout";
 import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
-import PrivateRout from "./PrivateRout";
 import Rider from "../Pages/Rider/Rider";
 import Error from "../Pages/Error/Error";
 import SendParcel from "../Pages/sendParcel/SendParcel";
 import DashboardLayout from "../Layouts/DashboardLayout";
-import MyParcels from "../Pages/Dashboard/MyParcels";
+import MyParcels from "../Pages/Dashboard/my-parcels/MyParcels";
 import Payment from "../Pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess";
 import PaymentCancelled from "../Pages/Dashboard/Payment/PaymentCancelled";
-import PaymentHistory from "../Pages/Dashboard/PaymentHistory";
+import PaymentHistory from "../Pages/Dashboard/payment-history/PaymentHistory";
 import ApproveRiders from "../Pages/Dashboard/Payment/ApproveRiders";
+import UsersManagement from "../Pages/Dashboard/users-management/UsersManagement";
+import PrivateRout from "./PrivateRout";
+import AdminRoute from "./AdminRoute";
+import AssignRiders from "../Pages/Dashboard/assign-riders/AssignRiders";
 
 export const router = createBrowserRouter([
     {
@@ -86,8 +89,25 @@ export const router = createBrowserRouter([
                 Component: PaymentHistory
             },
             {
+                path: 'users-management',
+                element:
+                    <AdminRoute>
+                        <UsersManagement></UsersManagement>
+                    </AdminRoute>
+            },
+            {
                 path: 'approve-riders',
-                Component: ApproveRiders
+                element:
+                    <AdminRoute>
+                        <ApproveRiders></ApproveRiders>
+                    </AdminRoute>
+            },
+            {
+                path: 'assign-riders',
+                element:
+                    <AdminRoute>
+                        <AssignRiders></AssignRiders>
+                    </AdminRoute>
             },
             {
                 path: "payment/:parcelId",
