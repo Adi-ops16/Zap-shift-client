@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useParams } from 'react-router';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
+import Loading from '../../../Components/Loading/Loading';
 
 const Payment = () => {
     const axiosSecure = useAxiosSecure()
@@ -20,7 +21,8 @@ const Payment = () => {
             cost: parcel.cost,
             parcelId: parcel._id,
             senderEmail: parcel.senderEmail,
-            parcelName: parcel.parcelName
+            parcelName: parcel.parcelName,
+            trackingId: parcel.trackingId
         }
 
         const res = await axiosSecure.post('/create-checkout-session', paymentInfo)
@@ -28,7 +30,7 @@ const Payment = () => {
     }
 
     if (isLoading) {
-        return "Loading........"
+        return <Loading />
     }
 
     return (

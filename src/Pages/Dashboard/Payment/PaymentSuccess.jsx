@@ -29,7 +29,6 @@ const PaymentSuccess = () => {
                         transactionId: res.data.transaction_id,
                         trackingId: res.data.trackingId
                     })
-                    console.log(res.data);
                 })
         }
     }, [axiosSecure, sessionId])
@@ -39,7 +38,7 @@ const PaymentSuccess = () => {
             <h2 className="text-4xl font-bold ">Payment Successful</h2>
             <p>Your Transaction-ID: {paymentInfo?.transactionId}</p>
             <p>Your tracking-ID: {paymentInfo?.trackingId}</p>
-            <Link to="/dashboard/my-parcels"
+            <Link to={`/parcel-track/${paymentInfo.trackingId}`}
                 className='btn btn-primary btn-wide text-black font-semibold'
             >
                 Track Your parcel

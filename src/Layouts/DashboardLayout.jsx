@@ -1,8 +1,9 @@
 import React from 'react';
 import { BsBox2Fill } from 'react-icons/bs';
-import { FaRegCreditCard } from 'react-icons/fa';
+import { FaRegCreditCard, FaTasks } from 'react-icons/fa';
 import { FaMotorcycle, FaTruck, FaUsers } from 'react-icons/fa6';
 import { GiFullMotorcycleHelmet } from "react-icons/gi";
+import { SiGoogletasks } from "react-icons/si";
 import { Link, NavLink, Outlet } from 'react-router';
 import useRole from '../Pages/Auth/useRole';
 
@@ -60,6 +61,7 @@ const DashboardLayout = () => {
                             </NavLink>
                         </li>
 
+                        {/* admin only links */}
                         {role === 'admin' &&
                             <>
                                 <li>
@@ -83,6 +85,28 @@ const DashboardLayout = () => {
                                         <GiFullMotorcycleHelmet />
                                         <span className="is-drawer-close:hidden">
                                             Assign riders
+                                        </span>
+                                    </NavLink>
+                                </li>
+                            </>
+                        }
+
+                        {/* rider only links */}
+                        {
+                            role === 'rider' && <>
+                                <li>
+                                    <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Assigned-Deliveries" to="/dashboard/assigned-deliveries">
+                                        <FaTasks />
+                                        <span className="is-drawer-close:hidden">
+                                            Assigned deliveries
+                                        </span>
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Completed-Deliveries" to="/dashboard/completed-deliveries">
+                                        <SiGoogletasks />
+                                        <span className="is-drawer-close:hidden">
+                                            Completed deliveries
                                         </span>
                                     </NavLink>
                                 </li>

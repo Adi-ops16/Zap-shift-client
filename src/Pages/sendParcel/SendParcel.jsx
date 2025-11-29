@@ -204,7 +204,7 @@ const SendParcel = () => {
 
 
                                 {/* receiver address */}
-                                <label className="label mt-4">Address</label>
+                                <label className="label mt-4">Receiver Address</label>
                                 <input type="text" {...register('receiverAddress')} className="input w-full" placeholder="Receiver Address" />
                                 {/* receiver phone number */}
                                 <label className="label mt-4">Phone number</label>

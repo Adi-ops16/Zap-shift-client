@@ -84,12 +84,9 @@ const MyParcels = () => {
                                 </td>
 
                                 <td>
-                                    {
-                                        parcel.paymentStatus === 'pending' ?
-                                            "Please pay first"
-                                            :
-                                            parcel.trackingId
-                                    }
+                                    <Link to={`/parcel-track/${parcel.trackingId}`}>
+                                        {parcel.trackingId}
+                                    </Link>
                                 </td>
 
                                 <td className='flex gap-1'>

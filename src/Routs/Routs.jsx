@@ -20,6 +20,10 @@ import UsersManagement from "../Pages/Dashboard/users-management/UsersManagement
 import PrivateRout from "./PrivateRout";
 import AdminRoute from "./AdminRoute";
 import AssignRiders from "../Pages/Dashboard/assign-riders/AssignRiders";
+import AssignedDeliveries from "../Pages/Dashboard/assigned-deliveries/AssignedDeliveries";
+import RiderRoute from "./RiderRoute";
+import CompletedDeliveries from "../Pages/Dashboard/completed-deliveries/CompletedDeliveries";
+import TrackYourParcel from "../Pages/track-your-parcel/TrackYourParcel";
 
 export const router = createBrowserRouter([
     {
@@ -57,6 +61,10 @@ export const router = createBrowserRouter([
                 Component: Coverage,
                 loader: () => fetch('/warehouses.json')
             },
+            {
+                path: "parcel-track/:trackingId",
+                Component: TrackYourParcel
+            },
 
         ]
     },
@@ -74,6 +82,7 @@ export const router = createBrowserRouter([
             }
         ]
     },
+    // dashboard routes
     {
         path: "dashboard",
         element: <PrivateRout>
@@ -88,6 +97,32 @@ export const router = createBrowserRouter([
                 path: 'payment-history',
                 Component: PaymentHistory
             },
+            {
+                path: "payment/:parcelId",
+                Component: Payment
+            },
+            {
+                path: "payment-success",
+                Component: PaymentSuccess
+            },
+            {
+                path: "payment-cancel",
+                Component: PaymentCancelled
+            },
+            // rider only routes
+            {
+                path: 'assigned-deliveries',
+                element: <RiderRoute>
+                    <AssignedDeliveries></AssignedDeliveries>
+                </RiderRoute>
+            },
+            {
+                path: 'completed-deliveries',
+                element: <RiderRoute>
+                    <CompletedDeliveries></CompletedDeliveries>
+                </RiderRoute>
+            },
+            // admin only route
             {
                 path: 'users-management',
                 element:
@@ -108,18 +143,6 @@ export const router = createBrowserRouter([
                     <AdminRoute>
                         <AssignRiders></AssignRiders>
                     </AdminRoute>
-            },
-            {
-                path: "payment/:parcelId",
-                Component: Payment
-            },
-            {
-                path: "payment-success",
-                Component: PaymentSuccess
-            },
-            {
-                path: "payment-cancel",
-                Component: PaymentCancelled
             },
         ]
     }
