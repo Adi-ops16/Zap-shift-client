@@ -3,6 +3,18 @@ import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import "leaflet/dist/leaflet.css"
 import { useLoaderData } from 'react-router';
 import { FaSearch } from 'react-icons/fa';
+import L from "leaflet";
+import markerIconPng from "leaflet/dist/images/marker-icon.png";
+import markerShadowPng from "leaflet/dist/images/marker-shadow.png";
+
+let DefaultIcon = L.icon({
+    iconUrl: markerIconPng,
+    shadowUrl: markerShadowPng,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41]
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
 
 const Coverage = () => {
     const warehouses = useLoaderData()
@@ -17,13 +29,12 @@ const Coverage = () => {
 
         if (district) {
             const coord = [district.latitude, district.longitude]
-            console.log(district, coord);
-            mapRef.current.flyTo(coord,14)
+            mapRef.current.flyTo(coord, 14)
         }
     }
 
     return (
-        <div className='max-w-7xl mx-auto my-10 bg-white rounded-2xl p-20'>
+        <div className='max-w-7xl mx-auto my-10 bg-white rounded-2xl p-2 md:p-20'>
             {/* any options i want to add */}
             <div className='flex flex-col justify-center items-center space-y-5 mb-10'>
                 <h2 className='text-3xl font-bold text-secondary'>We are available in 64 districts</h2>
